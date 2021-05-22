@@ -15,7 +15,7 @@ import imgOne from "..."
 import imgTwo from "..."
 import imgThree from "..."
 const NewCarousel = () => (
-  <Carousel plugins={['arrows']}>
+  <Carousel>
     <img src={imgOne} />
     <img src={imgTwo} />
     <img src={imgThree} />
