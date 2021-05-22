@@ -9,7 +9,7 @@ it was built to be completely reusable
 the styling was done by using sass and it follows BEM naming convention 
 
 # usage
-
+```javascript
 import React from 'react';
 import imgOne from "..."
 import imgTwo from "..."
@@ -23,7 +23,7 @@ const NewCarousel = () => (
   <div> hello world </div>
   </Carousel>
 );
-
+```
 export default NewCarousel;
 
 
