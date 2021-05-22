@@ -1,0 +1,35 @@
+var path = require("path");
+module.exports = {
+  mode: "development",
+  entry: path.join(__dirname, "./index.js"),
+  output: {
+    path: path.resolve(__dirname, "dist/assets"),
+
+    filename: "app.js",
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname),
+    publicPath: "/",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
+      },
+      {
+        test: /\.js/,
+        exclude: /node_modules/,
+        use: "babel-loader",
+      },
+    ],
+  },
+};

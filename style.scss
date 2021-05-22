@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+  position: relative;
+}
+.carousel {
+  width: 80%;
+  height: 80vh;
+  display: flex;
+  margin: 2rem auto;
+  align-items: center;
+  overflow: hidden;
+
+  &__slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    background: #ececec;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    overflow: hidden;
+    img,
+    & > * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100vw;
+      object-fit: cover;
+    }
+  }
+
+  &__dots {
+    position: absolute;
+    right: 10%;
+    left: 10%;
+    bottom: -5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    z-index: 50;
+  }
+  &__dot {
+    margin: 1rem;
+    height: 1rem;
+    width: 1rem;
+    cursor: pointer;
+
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+
+    &-active {
+      background: #222;
+    }
+  }
+
+  &__btn {
+    @extend %btn;
+    &-left {
+      left: 0.6rem;
+    }
+    &-right {
+      right: 0.6rem;
+    }
+  }
+}
+
+%btn {
+  position: absolute;
+  top: 50%;
+  background: none;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 2px;
+  font-weight: 800;
+  font-size: 2rem;
+  border-radius: 50%;
+  &:hover {
+    background-color: #f3f3f3;
+  }
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
