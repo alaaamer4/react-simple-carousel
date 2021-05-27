@@ -1,4 +1,4 @@
-# react-simple-carousel
+# React-simple-carousel
 
 a react component for building a carousel from it's child components
 
@@ -8,7 +8,7 @@ it was built to be completely reusable
 
 the styling was done by using sass and it follows BEM naming convention 
 
-# usage
+# Usage
 ```javascript
 import React from 'react';
 import imgOne from "..."
@@ -27,6 +27,6 @@ const NewCarousel = () => (
 export default NewCarousel;
 
 
-# here is a demo 
+# Here is a demo 
 
 https://react-simple-carousel-demo.netlify.app/
