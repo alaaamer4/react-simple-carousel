@@ -7,9 +7,9 @@ const App = () => {
   return (
     <>
       <Carousel>
-        <img src={img1} alt="" />
-        <img src={img2} alt="" />
-        <img src={img3} alt="" />
+        <img src={img1} alt="some description for the img" />
+        <img src={img2} alt="some description for the img" />
+        <img src={img3} alt="some description for the img" />
         <div>hello world</div>
       </Carousel>
     </>
