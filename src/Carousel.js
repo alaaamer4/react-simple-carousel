@@ -1,105 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import right from "./assets/right.png";
 import left from "./assets/left.png";
 const Carousel = ({ children }) => {
   // create an array of the children passed
   const carouselArr = [...children];
-
+  // calc the width of the screen
+  const screenWidth = window.screen.width;
   // controling the transition
-  const [x, setX] = useState(0);
-  const screen = window.screen.width;
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-  const [scrollX, setScrollX] = useState(0);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(null);
+  const [scrollLeft, setScrollLeft] = useState(null);
 
-  const prev = () => {
-    x === 0 ? setX(-100 * (carouselArr.length - 1)) : setX(x + 100);
+  // functions resbonsible for swipes
+  const moveLeft = () => {
+    index === 0 ? setIndex(carouselArr.length - 1) : setIndex(index - 1);
   };
-  const next = () => {
-    x === -100 * (carouselArr.length - 1) ? setX(0) : setX(x - 100);
+  const moveRight = () => {
+    index === carouselArr.length - 1 ? setIndex(0) : setIndex(index + 1);
   };
-
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].pageX);
-  };
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].pageX);
-    setScrollX(touchEnd - touchStart);
-
-    console.log({ scrollX, screen });
-  };
-  const handleTouchEnd = (e) => {
-    if (scrollX > 70 && scrollX !== touchStart) {
-      prev();
-    }
-    if (scrollX < -70 && scrollX !== touchStart) {
-      next();
-    }
-  };
-
+  // handeling mouse click & drag
   const onMouseDown = (e) => {
-    isDown = true;
-    startX = e.pageX;
-    console.log(startX);
-  };
-  const onMouseUp = (e) => {
-    isDown = false;
-    // call the scroll func here
-    if (scrollLeft > 120) {
-      prev();
-    }
-    if (scrollLeft < -120) {
-      next();
-    }
-  };
-  const onMouseLeave = (e) => {
-    isDown = false;
+    setIsDown(true);
+    setStartX(e.pageX);
+    setScrollLeft(index * -100);
   };
   const onMouseMove = (e) => {
+    e.preventDefault();
     if (isDown) {
-      e.preventDefault();
-      scrollLeft = e.pageX - startX;
+      setScrollLeft(index * -100 + ((e.pageX - startX) * 100) / screenWidth);
     }
   };
+  const onMouseUp = (e) => {
+    setIsDown(false);
+    setScrollLeft(index * -100);
+    //  TODO write the logic for scroll
+    if (scrollLeft < index * -100 - 25) {
+      moveRight();
+    }
+    if (scrollLeft > index * -100 + 25) {
+      moveLeft();
+    }
+  };
+
+  const onMouseLeave = (e) => {
+    setIsDown(false);
+    setScrollLeft(index * -100);
+  };
+  // handeling Touch and drag events
+  const onTouchStart = (e) => {
+    setIsDown(true);
+    setStartX(e.targetTouches[0].pageX);
+    setScrollLeft(index * -100);
+  };
+  const onTouchMove = (e) => {
+    if (isDown) {
+      setScrollLeft(
+        index * -100 + ((e.targetTouches[0].pageX - startX) * 100) / screenWidth
+      );
+    }
+  };
+  const onTouchEnd = (e) => {
+    setIsDown(false);
+    setScrollLeft(index * -100);
+    //  TODO write the logic for scroll
+    if (scrollLeft < index * -100 - 25) {
+      moveRight();
+    }
+    if (scrollLeft > index * -100 + 25) {
+      moveLeft();
+    }
+  };
+
   return (
     <div className="carousel">
-      {carouselArr.map((slide, index) => (
+      {carouselArr.map((slide, i) => (
         <div
           className="carousel__slide"
-          key={index}
-          style={{ transform: `translateX(${x}%)` }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          key={i}
+          style={
+            // styles while dragging and after the drag
+            isDown
+              ? { transform: `translateX(${scrollLeft}%)`, transition: "0.2s" }
+              : { transform: `translateX(${index * -100}%)` }
+          }
           onMouseDown={onMouseDown}
           onMouseUp={onMouseUp}
           onMouseLeave={onMouseLeave}
           onMouseMove={onMouseMove}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onTouchMove={onTouchMove}
         >
           {slide}
         </div>
       ))}
 
       <div className="carousel__dots">
-        {carouselArr.map((slide, index) => (
+        {carouselArr.map((slide, i) => (
           <div
-            className={`carousel__dot ${
-              -100 * index === x && "carousel__dot-active"
-            }`}
-            key={index}
+            className={`carousel__dot ${i === index && "carousel__dot-active"}`}
+            key={i}
             onClick={() => {
-              setX(-100 * index);
+              setIndex(i);
             }}
           ></div>
         ))}
       </div>
-      <button className="carousel__btn carousel__btn-right" onClick={next}>
+      <button className="carousel__btn carousel__btn-right" onClick={moveRight}>
         <img src={right} alt="right" />
       </button>
-      <button className="carousel__btn carousel__btn-left" onClick={prev}>
+      <button className="carousel__btn carousel__btn-left" onClick={moveLeft}>
         <img src={left} alt="left" />
       </button>
     </div>
