@@ -1,10 +1,10 @@
-var path = require("path");
+const path = require("path");
+
 module.exports = {
   mode: "development",
-  entry: path.join(__dirname, "./index.js"),
+  entry: path.join(__dirname, "index.js"),
   output: {
-    path: path.resolve(__dirname, "dist/assets"),
-
+    path: path.resolve(__dirname, "build"),
     filename: "app.js",
   },
   devServer: {
@@ -14,11 +14,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: "/.css/",
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg)$/i,
         use: [
           {
             loader: "file-loader",
@@ -26,8 +30,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.js/,
-        exclude: /node_modules/,
+        test: /.js/,
+        exclude: "/node_modules/",
         use: "babel-loader",
       },
     ],

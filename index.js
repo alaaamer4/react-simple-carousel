@@ -1,6 +1,5 @@
 import React from "react";
-import "./style.scss";
-import ReactDOM from "react-dom";
-import App from "./src/App.js";
+import ReactDom from "react-dom";
+import App from "./src/components/App";
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+ReactDom.render(<App />, document.querySelector("#root"));
