@@ -20,7 +20,6 @@ const Carousel = ({ children }) => {
     setCounter(counter - 1);
   };
   const onTransitionEnd = () => {
-    console.log(counter);
     if (counter === viewArray.length - 1) {
       slider.current.style.transition = "none";
       setCounter(1);
@@ -71,11 +70,7 @@ const Carousel = ({ children }) => {
     }
     setScrollX(0);
   };
-  const onMouseLeave = () => {
-    slider.current.style.cursor = "grab";
-    setIsDown(false);
-    setScrollX(0);
-  };
+
   return (
     <div className="carousel" ref={carousel}>
       <div
@@ -90,7 +85,7 @@ const Carousel = ({ children }) => {
         onMouseDown={onTouchStart}
         onMouseMove={onTouchMove}
         onMouseUp={onTouchEnd}
-        onMouseLeave={onMouseLeave}
+        onMouseLeave={onTouchEnd}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onTouchMove={onTouchMove}
